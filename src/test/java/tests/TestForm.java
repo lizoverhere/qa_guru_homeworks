@@ -133,7 +133,7 @@ public class TestForm {
         //Простая форма, негативный сценарий,
     void uncorrectSimpleForm() {
         open("/text-box");
-        $("#userName").setValue("Bogdanova Elizaveta");
+        $("#userName").setValue("testoviy test");
         $("#userEmail").setValue("444");
         $("#submit").click();
         $("#userEmail").shouldHave(cssClass("field-error"));
