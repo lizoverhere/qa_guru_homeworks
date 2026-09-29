@@ -138,6 +138,15 @@ public class TestForm {
         $("#submit").click();
         $("#userEmail").shouldHave(cssClass("field-error"));
     }
+    @Test
+        //Простая форма, негативный сценарий,
+    void testForBrunch() {
+        open("/text-box");
+        $("#userName").setValue("test");
+        $("#userEmail").setValue("test");
+        $("#submit").click();
+        $("#userEmail").shouldHave(cssClass("field-error"));
+    }
 }
 
 
