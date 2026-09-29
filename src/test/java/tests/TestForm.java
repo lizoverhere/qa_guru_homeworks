@@ -134,16 +134,7 @@ public class TestForm {
     void uncorrectSimpleForm() {
         open("/text-box");
         $("#userName").setValue("Bogdanova Elizaveta");
-        $("#userEmail").setValue("555");
-        $("#submit").click();
-        $("#userEmail").shouldHave(cssClass("field-error"));
-    }
-    @Test
-        //Простая форма, негативный сценарий,
-    void testForBrunch() {
-        open("/text-box");
-        $("#userName").setValue("test");
-        $("#userEmail").setValue("test");
+        $("#userEmail").setValue("444");
         $("#submit").click();
         $("#userEmail").shouldHave(cssClass("field-error"));
     }
