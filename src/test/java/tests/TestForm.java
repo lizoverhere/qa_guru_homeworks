@@ -134,7 +134,7 @@ public class TestForm {
     void uncorrectSimpleForm() {
         open("/text-box");
         $("#userName").setValue("Bogdanova Elizaveta");
-        $("#userEmail").setValue("444");
+        $("#userEmail").setValue("555");
         $("#submit").click();
         $("#userEmail").shouldHave(cssClass("field-error"));
     }
