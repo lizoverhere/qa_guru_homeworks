@@ -5,21 +5,28 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import java.io.File;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.value;
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
+import static com.codeborne.selenide.Selectors.byText;
 
 
 public class TestForm {
+    @BeforeAll
+    static void setup() {
+        Configuration.baseUrl = "https://demoqa.com";
+    }
+
     @Test
         //Заполнение формы со всеми полями
     void registrationFormTestWithAllFields() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         $("#firstName").setValue("Elizaveta");
         $("#lastName").setValue("Bogdanova");
         $("#userEmail").setValue("lizabogdanova@gmail.com");
-        $("#gender-radio-2").click();
+        $("#genterWrapper").$(byText("Female")).click();
         $("#userNumber").setValue("8960123456");
         $("#dateOfBirthInput").click();
         $(".react-datepicker__year-select").selectOption("2000");
@@ -28,13 +35,13 @@ public class TestForm {
         $(".react-datepicker").shouldNotBe(visible);
         $("#subjectsInput").setValue("Maths");
         $("#subjectsInput").pressEnter();
-        $("label[for='hobbies-checkbox-2']").scrollIntoView(true).click();
-        $("#uploadPicture").uploadFile(new File("/Users/lizzie/Desktop/cat.jpg"));
+        $("#hobbiesWrapper").$(byText("Reading")).scrollIntoView(true).click();
+        $("#uploadPicture").uploadFromClasspath("cat.jpg");
         $("#currentAddress").setValue("Moscow, Lenina avenue, 45");
-        $("#state input").setValue("NCR");
-        $("#state Input").pressEnter();
-        $("#city input").setValue("Delhi");
-        $("#city Input").pressEnter();
+        $("#state").click();
+        $(byText("NCR")).click();
+        $("#city").click();
+        $(byText("Delhi")).click();
         $("#submit").click();
 
         $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
@@ -53,10 +60,10 @@ public class TestForm {
     @Test
         //Заполнение формы с обязательными полями
     void requiredFields() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         $("#firstName").setValue("Elizaveta");
         $("#lastName").setValue("Bogdanova");
-        $("#gender-radio-2").click();
+        $("#genterWrapper").$(byText("Female")).click();
         $("#userNumber").setValue("8960123456");
         $("#submit").scrollIntoView(true).click();
         $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
@@ -66,10 +73,10 @@ public class TestForm {
     @Test
         //Негативный сценарий: номер телефона менее 10 цифр
     void fiveDigitPhoneNumber() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         $("#firstName").setValue("Elizaveta");
         $("#lastName").setValue("Bogdanova");
-        $("#gender-radio-2").click();
+        $("#genterWrapper").$(byText("Female")).click();
         $("#userNumber").setValue("55555");
         $("#submit").scrollIntoView(true).click();
         $("#userNumber:invalid").shouldBe(visible);
@@ -79,7 +86,7 @@ public class TestForm {
     @Test
         //Негативный сценарий: форма без фамилии
     void withoutLastname() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         $("#firstName").setValue("Elizaveta");
         $("#submit").scrollIntoView(true).click();
         $("#lastName:invalid").shouldBe(visible);
@@ -88,7 +95,7 @@ public class TestForm {
     @Test
         //Негативный сценарий: форма без имени
     void withoutFirstName() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         $("#lastName").setValue("Bogdanova");
         $("#submit").scrollIntoView(true).click();
         $("#firstName:invalid").shouldBe(visible);
@@ -97,7 +104,7 @@ public class TestForm {
     @Test
         //Негативный сценарий: неверный формат почты
     void uncorrectEmail() {
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         $("#firstName").setValue("Elizaveta");
         $("#lastName").setValue("Bogdanova");
         $("#userEmail").setValue("qwert");
@@ -108,7 +115,7 @@ public class TestForm {
     @Test
         //Простая форма, успешный сценарий
     void successSimpleForm() {
-        open("https://demoqa.com/text-box");
+        open("/text-box");
         $("#userName").setValue("Bogdanova Elizaveta");
         $("#userEmail").setValue("lizabogdanova880@gmail.com");
         $("#currentAddress").setValue("Moscow, Lenina avenue, 45");
@@ -125,7 +132,7 @@ public class TestForm {
     @Test
         //Простая форма, негативный сценарий,
     void uncorrectSimpleForm() {
-        open("https://demoqa.com/text-box");
+        open("/text-box");
         $("#userName").setValue("Bogdanova Elizaveta");
         $("#userEmail").setValue("444");
         $("#submit").click();
